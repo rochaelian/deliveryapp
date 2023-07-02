@@ -1,11 +1,16 @@
 
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../models/response_api.dart';
 import '../../models/user.dart';
 import '../../provider/users_provider.dart';
 import '../../utils/my_snackbar.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterController{
 
@@ -19,10 +24,13 @@ class RegisterController{
   TextEditingController confirmPasswordController = TextEditingController();
 
   UsersProvider usersProvider = UsersProvider();
+  late PickedFile pickedFile;
+  File? imageFile;
+  late Function refresh;
 
-
-  Future? init(BuildContext context){
+  Future? init(BuildContext context, Function refresh){
     this.context = context;
+    this.refresh = refresh;
     usersProvider.init(context);
   }
 
@@ -49,6 +57,11 @@ class RegisterController{
       return;
     }
 
+    if(imageFile == null){
+      MySnackbar.show(context!, 'Seleccione una imagen');
+      return;
+    }
+
     User user = User(
         email: email,
         name: name,
@@ -57,29 +70,34 @@ class RegisterController{
         password: password
     );
 
-    ResponseApi? responseApi = await usersProvider.create(user);
-    MySnackbar.show(context!, responseApi!.message!);
+    Stream? stream = await usersProvider.createWithImage(user, imageFile!);
+    stream?.listen((res) async {
+     // ResponseApi? responseApi = await usersProvider.create(user);
 
-    print('RESPUESTA: ${responseApi.toJson()}');
+      ResponseApi? responseApi = ResponseApi.fromJson(json.decode(res));
+      print('RESPUESTA: ${responseApi.toJson()}');
 
-    if(responseApi.success!){
-      Future.delayed(Duration(seconds: 3), (){
-        Navigator.pushReplacementNamed(context!, 'login');
-      });
-    }
+      MySnackbar.show(context!, responseApi.message!);
+
+
+      if(responseApi.success!){
+        Future.delayed(Duration(seconds: 3), (){
+          Navigator.pushReplacementNamed(context!, 'login');
+        });
+      }
+    });
   }
 
-/*  Future? selectImage(ImageSource imageSourse) async{
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: imageSourse);
-    imagefile = File(image!.path);
-    //FileImage(imagefile!);
-
-    Navigator.of(context!, rootNavigator: true).pop('dialog');
+  Future? selectImage(ImageSource imageSourse) async{
+    pickedFile = (await ImagePicker().getImage(source: imageSourse))!;
+    if(pickedFile != null){
+      imageFile = File(pickedFile.path);
+    }
+    Navigator.pop(context!);
     refresh();
-  }*/
+  }
 
-/*
+
   void showAlertDialog(){
     Widget galleryButton = ElevatedButton(
         onPressed: (){
@@ -110,7 +128,7 @@ class RegisterController{
         }
     );
   }
-*/
+
 
   void back(){
     Navigator.pop(context!);

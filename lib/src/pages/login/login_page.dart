@@ -149,10 +149,10 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: (){},
+        onPressed: _con.login,
         child: Text('INGRESAR'),
         style: ElevatedButton.styleFrom(
-            primary: MyColors.primaryColor,
+            backgroundColor: MyColors.primaryColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30)
             ),
@@ -168,7 +168,8 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         Text('¿No tienes cuenta?',
           style: TextStyle(
-              color: MyColors.primaryColor
+              color: MyColors.primaryColor,
+              fontSize: 17
           ),
         ),
         SizedBox(width: 7,),
@@ -177,7 +178,8 @@ class _LoginPageState extends State<LoginPage> {
           child: Text('Registrate',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: MyColors.primaryColor
+                color: MyColors.primaryColor,
+              fontSize: 17
             ),
           ),
         )

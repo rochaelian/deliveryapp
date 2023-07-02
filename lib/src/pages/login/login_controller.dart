@@ -38,12 +38,14 @@ class LoginController{
     String password = passwordController.text.trim();
     ResponseApi? responseApi = await usersProvider.login(email, password);
 
+    print("MENSAJE ${responseApi?.message}");
+
     if(responseApi!.success!) {
       User user = User.fromJson(responseApi.data!);
       _sharedPref.save('user', user.toJson());
 
       print('USUARIO LOGEADO:  ${user.toJson()}');
-      
+
       if(user.roles!.length > 1){
         Navigator.pushNamedAndRemoveUntil(context!, 'roles', (route) => false);
       }else{
