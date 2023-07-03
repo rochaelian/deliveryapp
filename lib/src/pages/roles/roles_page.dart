@@ -14,11 +14,13 @@ class RolesPage extends StatefulWidget {
 
 class _RolesPageState extends State<RolesPage> {
 
-  RolesController _con = RolesController();
+  RolesController _con = new RolesController();
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
@@ -27,8 +29,9 @@ class _RolesPageState extends State<RolesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: MyColors.primaryOpacityColor,
+        backgroundColor: MyColors.primaryColor,
         title: Text('Selecciona un rol'),
       ),
       body: Container(
@@ -41,6 +44,8 @@ class _RolesPageState extends State<RolesPage> {
       ),
     );
   }
+
+
 
   Widget _cardRol(Rol? rol){
     return GestureDetector(

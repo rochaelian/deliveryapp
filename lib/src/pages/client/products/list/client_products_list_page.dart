@@ -97,7 +97,9 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                     height: 60,
                     margin: EdgeInsets.only(top: 10),
                     child: FadeInImage(
-                        image: AssetImage('assets/img/no-image.png'),
+                        image: _con.user?.image != null
+                            ? NetworkImage(_con.user!.image!) as ImageProvider
+                            : AssetImage('assets/img/user_profile_2.png'),
                         fit: BoxFit.contain,
                         fadeInDuration: Duration(milliseconds: 50),
                         placeholder: AssetImage('assets/img/no-image.png')
@@ -107,6 +109,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
               )
           ),
           ListTile(
+            onTap: _con.goToUpdatePage,
               title: Text('Editar perfil'),
               trailing: Icon(Icons.edit_outlined)
           ),

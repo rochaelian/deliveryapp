@@ -1,4 +1,5 @@
 import 'package:deliveryapp/src/pages/client/products/list/client_products_list_page.dart';
+import 'package:deliveryapp/src/pages/client/update/client_update_page.dart';
 import 'package:deliveryapp/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:deliveryapp/src/pages/login/login_page.dart';
 import 'package:deliveryapp/src/pages/register/register_page.dart';
@@ -29,6 +30,7 @@ class _MyAppState extends State<MyApp> {
         'login' : (BuildContext context) => LoginPage(),
         'register' : (BuildContext context) => RegisterPage(),
         'roles' : (BuildContext context) => RolesPage(),
+        'client/update': (BuildContext context) => ClientUpdatePage(),
         'client/products/list': (BuildContext context) => ClientProductsListPage(),
         'restaurant/orders/list': (BuildContext context) => RestaurantOrdersListPage(),
         'delivery/orders/list': (BuildContext context) => DeliveryOrdersListPage()

@@ -1,96 +1,85 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:deliveryapp/src/utils/shared_pref.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/response_api.dart';
-import '../../models/user.dart';
-import '../../provider/users_provider.dart';
-import '../../utils/my_snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class RegisterController{
+import '../../../models/response_api.dart';
+import '../../../models/user.dart';
+import '../../../provider/users_provider.dart';
+import '../../../utils/my_snackbar.dart';
+
+class ClientUpdateController{
 
   BuildContext? context;
 
-  TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+
 
   File? imageFile;
+  User user = User();
   bool isEnable = true;
   late Function refresh;
   late PickedFile pickedFile;
   late ProgressDialog _progressDialog;
+  SharedPref _sharedPref = SharedPref();
   UsersProvider usersProvider = UsersProvider();
 
-  Future? init(BuildContext context, Function refresh){
+  Future? init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    usersProvider.init(context);
     _progressDialog = ProgressDialog(context: context);
+    user = User.fromJson(await _sharedPref.read('user'));
+    usersProvider.init(context, sessionUser: user);
+    nameController.text = user.name!;
+    lastNameController.text = user.lastname!;
+    phoneController.text = user.phone!;
+    refresh();
   }
 
-  void register() async{
-    String email = emailController.text.trim();
+  void update() async{
     String name = nameController.text;
     String lastname = lastNameController.text;
     String phone = phoneController.text.trim();
-    String password = passwordController.text.trim();
-    String confirmpassword = confirmPasswordController.text.trim();
 
-    if(email.isEmpty || name.isEmpty || lastname.isEmpty || phone.isEmpty || password.isEmpty || confirmpassword.isEmpty){
+    if(name.isEmpty || lastname.isEmpty || phone.isEmpty){
       MySnackbar.show(context!, 'Debes ingresar todos los campos');
-      return;
-    }
-
-    if(confirmpassword != password){
-      MySnackbar.show(context!, 'Las contraseñas no coinciden');
-      return;
-    }
-
-    if(password.length < 6){
-      MySnackbar.show(context!, 'La contraseña debe tener al menos 6 caracteres');
-      return;
-    }
-
-    if(imageFile == null){
-      MySnackbar.show(context!, 'Seleccione una imagen');
       return;
     }
 
     _progressDialog.show(max: 100, msg: 'Espere un momento');
     isEnable = false;
 
-    User user = User(
-        email: email,
+    User userUpdate = User(
+        id: user.id,
         name: name,
         lastname: lastname,
         phone: phone,
-        password: password
+        image: user.image
     );
 
-    Stream? stream = await usersProvider.createWithImage(user, imageFile!);
+    Stream? stream = await usersProvider.update(userUpdate, imageFile);
     stream?.listen((res) async {
 
       _progressDialog.close();
       ResponseApi? responseApi = ResponseApi.fromJson(json.decode(res));
+      Fluttertoast.showToast(msg: responseApi.message!);
       print('RESPUESTA: ${responseApi.toJson()}');
 
-      MySnackbar.show(context!, responseApi.message!);
-
-
       if(responseApi.success!){
-        Future.delayed(Duration(seconds: 2), (){
-          Navigator.pushReplacementNamed(context!, 'login');
-        });
+
+        user = await usersProvider.getById(user.id!);
+        _sharedPref.save('user', user.toJson());
+        print('USUARIO: ${user.toJson()}');
+        Navigator.pushNamedAndRemoveUntil(context!, 'client/products/list', (route) => false);
+
       }else{
         isEnable = true;
       }

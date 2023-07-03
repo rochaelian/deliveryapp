@@ -9,7 +9,7 @@ class ResponseApi {
   String? message;
   String? error;
   bool? success;
-  dynamic data;
+  dynamic? data;
 
   ResponseApi({
     this.message,
