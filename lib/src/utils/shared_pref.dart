@@ -35,6 +35,6 @@ class SharedPref {
     usersProvider.init(context);
     await usersProvider.logout(idUser!);
     await remove('user');
-    Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context!, 'login', (route) => false);
   }
 }

@@ -270,6 +270,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _buttonRegister(){
     return Container(
+      height: 50,
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(

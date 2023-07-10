@@ -17,9 +17,7 @@ class _RestaurantOrdersListPageState extends State<RestaurantOrdersListPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
@@ -30,8 +28,8 @@ class _RestaurantOrdersListPageState extends State<RestaurantOrdersListPage> {
     return Scaffold(
       key: _con.key,
       appBar: AppBar(
-        backgroundColor: MyColors.primaryOpacityColor,
         leading: _menuDrawer(),
+        backgroundColor: MyColors.primaryOpacityColor,
       ),
       drawer: _drawer(),
       body: Center(
@@ -64,7 +62,7 @@ class _RestaurantOrdersListPageState extends State<RestaurantOrdersListPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${_con.user!.name ?? ''} ${_con.user?.lastname ?? ''}',
+                    '${_con.user?.name ?? ''} ${_con.user?.lastname ?? ''}',
                     style: TextStyle(
                         fontSize: 18,
                         color: MyColors.primaryColorDark,
@@ -73,7 +71,7 @@ class _RestaurantOrdersListPageState extends State<RestaurantOrdersListPage> {
                     maxLines: 1,
                   ),
                   Text(
-                    _con.user!.email ?? '',
+                    _con.user?.email ?? '',
                     style: TextStyle(
                         fontSize: 13,
                         color: MyColors.primaryColor,
@@ -83,7 +81,7 @@ class _RestaurantOrdersListPageState extends State<RestaurantOrdersListPage> {
                     maxLines: 1,
                   ),
                   Text(
-                    _con.user!.phone ?? '',
+                    _con.user?.phone ?? '',
                     style: TextStyle(
                         fontSize: 13,
                         color: MyColors.primaryColor,
@@ -104,6 +102,16 @@ class _RestaurantOrdersListPageState extends State<RestaurantOrdersListPage> {
                   )
                 ],
               )
+          ),
+          ListTile(
+              onTap: _con.goToCategoryCreate,
+              title: Text('Crear categoría'),
+              trailing: Icon(Icons.category)
+          ),
+          ListTile(
+              onTap: _con.goToProductCreate,
+              title: Text('Crear producto'),
+              trailing: Icon(Icons.local_pizza)
           ),
           _con.user != null ?
           _con.user!.roles!.length > 1 ?

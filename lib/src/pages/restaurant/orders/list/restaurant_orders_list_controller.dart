@@ -18,15 +18,23 @@ class RestaurantOrdersListController{
     refresh();
   }
 
-  void logout(){
-    _sharedPref.logout(context!, user!.id);
-  }
-
   void openDrawer(){
     key.currentState!.openDrawer();
   }
 
   void gotoRoles(){
     Navigator.pushNamedAndRemoveUntil(context!, 'roles', (route) => false);
+  }
+
+  void goToCategoryCreate(){
+    Navigator.pushNamed(context!, 'restaurant/categories/create');
+  }
+
+  void goToProductCreate(){
+    Navigator.pushNamed(context!, 'restaurant/products/create');
+  }
+
+  void logout(){
+    _sharedPref.logout(context!, user!.id);
   }
 }
