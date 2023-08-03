@@ -46,6 +46,13 @@ dev_dependencies:
   image_picker: ^0.7.5
   sn_progress_dialog: ^1.1.1
   fluttertoast: ^8.0.7
+  modal_bottom_sheet: ^2.0.0
+  flutter_image_slideshow: ^0.1.0
+  google_maps_flutter: ^2.0.6
+  geolocator: ^7.0.3
+  location: ^4.1.1
+  geocoding: ^2.0.0
+  geocode: ^1.0.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

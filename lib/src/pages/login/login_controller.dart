@@ -41,7 +41,7 @@ class LoginController{
     print("MENSAJE ${responseApi?.message}");
 
     if(responseApi!.success!) {
-      User user = User.fromJson(responseApi.data!);
+      User user = User.fromJson(responseApi!.data!);
       _sharedPref.save('user', user.toJson());
 
       print('USUARIO LOGEADO:  ${user.toJson()}');

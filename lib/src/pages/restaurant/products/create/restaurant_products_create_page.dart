@@ -100,7 +100,7 @@ class _RestaurantProductsCreatePageState extends State<RestaurantProductsCreateP
           maxLines: 3,
           maxLength: 255,
           decoration: InputDecoration(
-            hintText: 'Descripción de la categoría',
+            hintText: 'Descripción del producto',
             hintStyle: TextStyle(
                 color: MyColors.primaryColorDark
             ),

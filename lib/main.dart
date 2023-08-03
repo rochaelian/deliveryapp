@@ -1,3 +1,7 @@
+import 'package:deliveryapp/src/pages/client/address/create/client_address_create_page.dart';
+import 'package:deliveryapp/src/pages/client/address/list/client_address_list_page.dart';
+import 'package:deliveryapp/src/pages/client/address/map/client_address_map_page.dart';
+import 'package:deliveryapp/src/pages/client/orders/client_orders_create_page.dart';
 import 'package:deliveryapp/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:deliveryapp/src/pages/client/update/client_update_page.dart';
 import 'package:deliveryapp/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
@@ -34,6 +38,10 @@ class _MyAppState extends State<MyApp> {
         'roles' : (BuildContext context) => RolesPage(),
         'client/update': (BuildContext context) => ClientUpdatePage(),
         'client/products/list': (BuildContext context) => ClientProductsListPage(),
+        'client/orders/create': (BuildContext context) => ClientOrdersCreatePage(),
+        'client/address/list': (BuildContext context) => ClientAddressListPage(),
+        'client/address/create': (BuildContext context) => ClientAddressCreatePage(),
+        'client/address/map': (BuildContext context) => ClientAddressMapPage(),
         'restaurant/orders/list': (BuildContext context) => RestaurantOrdersListPage(),
         'restaurant/categories/create': (BuildContext context) => RestaurantCategoriesCreatePage(),
         'restaurant/products/create': (BuildContext context) => RestaurantProductsCreatePage(),
@@ -41,7 +49,8 @@ class _MyAppState extends State<MyApp> {
       },
       theme: ThemeData(
         fontFamily: 'NimbusSans',
-        primaryColor: MyColors.primaryColor
+        primaryColor: MyColors.primaryColor,
+        appBarTheme: AppBarTheme(elevation: 0)
       ),
     );
   }
